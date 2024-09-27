@@ -1,17 +1,7 @@
 {
-  "short_name": "TraceMap",
-  "name": "TraceMap - Social Media Analysis",
+  "short_name": "Verzerrt",
+  "name": "Verzerrt",
   "icons": [
-    {
-      "src": "icons/fav16.png",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/fav32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
     {
       "src": "icons/fav64.png",
       "sizes": "64x64",
@@ -20,6 +10,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#001f3f",
+  "background_color": "#FFEBCD"
 }

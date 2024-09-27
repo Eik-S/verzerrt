@@ -1,5 +1,5 @@
 resource "aws_iam_role" "restricted_admin" {
-  name               = "terraformRestrictedAdmin"
+  name               = "verzerrtTerraformRestrictedAdmin"
   assume_role_policy = data.aws_iam_policy_document.restricted_admin_assume_role.json
 }
 
@@ -24,20 +24,20 @@ data "aws_iam_policy_document" "restricted_admin_assume_role" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:Eik-S/tracemap:*"]
+      values   = ["repo:Eik-S/verzerrt:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
 
     principals {
       type = "Federated"
 
-      identifiers = [aws_iam_openid_connect_provider.github_oidc.arn]
+      identifiers = [var.github_oidc_arn]
     }
   }
 }
 
 resource "aws_iam_policy" "restricted_admin" {
-  name        = "restriced-admin-policy"
+  name        = "verzerrt-restriced-admin-policy"
   description = "Permissions to aws resources used by github actions"
   policy      = data.aws_iam_policy_document.restricted_admin.json
 }
@@ -103,18 +103,6 @@ data "aws_iam_policy_document" "restricted_admin" {
 
     resources = [
       "arn:aws:cloudfront::643625685022:distribution/E3VLBU7WSF9N46"
-    ]
-  }
-
-  statement {
-    sid = "ApiLambdaAccess"
-
-    actions = [
-      "lambda:UpdateFunctionCode"
-    ]
-
-    resources = [
-      "arn:aws:lambda:eu-central-1:643625685022:function:tracemap-api"
     ]
   }
 }

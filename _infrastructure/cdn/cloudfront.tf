@@ -1,4 +1,10 @@
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {}
+resource "aws_cloudfront_origin_access_control" "prod_distribution" {
+  name                              = "verzerrt-website-bucket-cloudfront-oac"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
 
 resource "aws_cloudfront_distribution" "prod_distribution" {
   default_root_object = "index.html"
@@ -31,60 +37,42 @@ resource "aws_cloudfront_distribution" "prod_distribution" {
   }
 
   origin {
-    domain_name = "${var.website_domain_name}.s3.eu-central-1.amazonaws.com"
-    origin_id   = "tracemap-website"
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-    }
-  }
-
-  origin {
-    domain_name = "a84kgy7k7b.execute-api.eu-central-1.amazonaws.com"
-    origin_id   = "tracemap-api"
-
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  ordered_cache_behavior {
-    path_pattern     = "/api/*"
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "tracemap-api"
-
-    default_ttl = 0
-    min_ttl     = 0
-    max_ttl     = 0
-
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-
-    viewer_protocol_policy = "redirect-to-https"
+    domain_name              = "${var.website_domain_name}.s3.eu-central-1.amazonaws.com"
+    origin_id                = "verzerrt-website"
+    origin_access_control_id = aws_cloudfront_origin_access_control.prod_distribution.id
   }
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "tracemap-website"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = "verzerrt-website"
+    compress               = true
+    cache_policy_id        = aws_cloudfront_cache_policy.default.id
+    viewer_protocol_policy = "redirect-to-https"
 
-    # Forward all query strings, cookies and headers
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
+  }
+}
+
+resource "aws_cloudfront_cache_policy" "default" {
+  name        = "verzerrt-default-cache-policy"
+  min_ttl     = 0
+  default_ttl = 3600
+  max_ttl     = 31536000
+  parameters_in_cache_key_and_forwarded_to_origin {
+    cookies_config {
+      cookie_behavior = "none"
+    }
+    query_strings_config {
+      query_string_behavior = "none"
+    }
+    headers_config {
+      header_behavior = "whitelist"
+      headers {
+        items = ["Origin"]
       }
     }
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+
+    enable_accept_encoding_brotli = true
+    enable_accept_encoding_gzip   = true
   }
 }

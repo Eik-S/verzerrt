@@ -2,13 +2,16 @@
   "name": "verzerrt",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "verzerrt-website"
   ],
   "devDependencies": {
+    "@commitlint/cli": "19.5.0",
+    "@commitlint/config-conventional": "19.5.0",
     "concurrently": "^7.6.0",
-    "husky": "^8.0.3",
-    "prettier": "2.8.3"
+    "husky": "9.1.6",
+    "prettier": "3.3.3"
   },
   "scripts": {
     "start": "concurrently --kill-others \"npm run start --workspace verzerrt-website\"",
@@ -16,10 +19,11 @@
     "tsc": "npm run tsc --workspaces",
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "prepare": "husky install"
+    "prepare": "husky",
+    "commitlint": "commitlint"
   },
   "volta": {
-    "node": "20.10.0",
-    "npm": "10.2.5"
+    "node": "20.11.1",
+    "npm": "10.8.3"
   }
 }

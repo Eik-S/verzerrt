@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ['Test and Build']
+    branches: [main]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create release PR
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_PAT }}
+          config-file: release-please-config.json
+      - name: assuming role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::643625685022:role/verzerrtTerraformRestrictedAdmin
+          aws-region: eu-central-1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - name: deploy release vesion
+        if: ${{ steps.release.outputs.verzerrt-website--release_created }}
+        run: |
+          npm i
+          RELEASE_VERSION=${{ steps.release.outputs.verzerrt-website--tag_name }} npm run build -w verzerrt-website
+          aws s3 sync --exclude 'assets/*' ./verzerrt-website/build/ s3://verzerrt.eikemu.com/ --delete --cache-control max-age=120
+          aws s3 sync ./verzerrt-website/build/assets/ s3://verzerrt.eikemu.com/assets/ --delete --cache-control max-age=31536000
+          aws s3 cp ./verzerrt-website/build/sw.js s3://verzerrt.eikemu.com/sw.js --content-type application/javascript --cache-control max-age=31536000
+          aws cloudfront create-invalidation --distribution-id EO3WAW6G8S772 --paths '/*'

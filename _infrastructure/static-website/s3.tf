@@ -1,14 +1,9 @@
-resource "aws_s3_bucket" "tracemap_frontend_bucket" {
+resource "aws_s3_bucket" "verzerrt_website_bucket" {
   bucket = var.domain_name
 }
 
-resource "aws_s3_bucket_acl" "tracemap_frontend_bucket" {
-  bucket = aws_s3_bucket.tracemap_frontend_bucket.id
-  acl    = "private"
-}
-
-resource "aws_s3_bucket_website_configuration" "tracemap_frontend_bucket" {
-  bucket = aws_s3_bucket.tracemap_frontend_bucket.id
+resource "aws_s3_bucket_website_configuration" "verzerrt_website_bucket" {
+  bucket = aws_s3_bucket.verzerrt_website_bucket.id
   index_document {
     suffix = "index.html"
   }
@@ -17,8 +12,8 @@ resource "aws_s3_bucket_website_configuration" "tracemap_frontend_bucket" {
   }
 }
 
-resource "aws_s3_bucket_policy" "tracemap_frontend_bucket" {
-  bucket = aws_s3_bucket.tracemap_frontend_bucket.id
+resource "aws_s3_bucket_policy" "verzerrt_website_bucket" {
+  bucket = aws_s3_bucket.verzerrt_website_bucket.id
   policy = data.aws_iam_policy_document.website_policy.json
 }
 
