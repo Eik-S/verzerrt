@@ -102,7 +102,7 @@ data "aws_iam_policy_document" "restricted_admin" {
     ]
 
     resources = [
-      "arn:aws:cloudfront::643625685022:distribution/E3VLBU7WSF9N46"
+      "arn:aws:cloudfront::643625685022:distribution/EO3WAW6G8S772"
     ]
   }
 }

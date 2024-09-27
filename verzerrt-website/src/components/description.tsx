@@ -19,7 +19,7 @@ export function Description({ ...props }) {
         water matey. Shiver me timbers wherry scuppers sutler squiffy yardarm bring a spring upon
         her cable Nelsons folly no prey, no pay brigantine. Boatswain Corsair tack take a caulk hulk
         prow Cat o'nine tails hail-shot long boat Jack Tar. Cable overhaul Plate Fleet spike
-        broadside brig grog blossom clipper aye loaded to the gunwalls.
+        broadside brig grog blossom clipper aye loaded to the gunwall.
       </p>
 
       ---
