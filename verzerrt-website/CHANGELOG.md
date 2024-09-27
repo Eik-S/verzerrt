@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Eik-S/verzerrt/compare/verzerrt-website-v1.1.0...verzerrt-website-v1.1.1) (2024-09-27)
+
+
+### Bug Fixes
+
+* allow cloudfront invalidation for github restircted admin ([7658b63](https://github.com/Eik-S/verzerrt/commit/7658b6328fc8334bc9bd02e8aa2f517e9800ca04))
+
 ## [1.1.0](https://github.com/Eik-S/verzerrt/compare/verzerrt-website-v1.0.0...verzerrt-website-v1.1.0) (2024-09-27)
 
 
