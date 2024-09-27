@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/Eik-S/verzerrt/compare/verzerrt-website-v1.0.0...verzerrt-website-v1.1.0) (2024-09-27)
+
+
+### Features
+
+* mobile styles ([89beb54](https://github.com/Eik-S/verzerrt/commit/89beb54e1de13ecf29e249cca47c58ea1c74a0c7))
+
 ## 1.0.0 (2024-09-27)
 
 
