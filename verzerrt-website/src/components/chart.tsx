@@ -146,6 +146,7 @@ const styles = {
     text-anchor: end;
     font-family: 'Courier New', Courier, monospace;
     font-size: 12px;
+    letter-spacing: 0.1em;
   `,
   yFont: css`
     text-anchor: end;

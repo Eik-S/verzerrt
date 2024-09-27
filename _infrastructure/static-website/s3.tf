@@ -23,26 +23,20 @@ data "aws_iam_policy_document" "website_policy" {
       "s3:GetObject"
     ]
     principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity EXBY0NKH36FWR"]
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
     }
 
     resources = [
       "arn:aws:s3:::${var.domain_name}/*"
     ]
-  }
 
-  statement {
-    actions = [
-      "s3:ListBucket"
-    ]
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity EXBY0NKH36FWR"]
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [var.cloudfront_arn]
     }
-
-    resources = [
-      "arn:aws:s3:::${var.domain_name}"
-    ]
   }
+
+
 }

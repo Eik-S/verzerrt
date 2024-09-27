@@ -33,7 +33,7 @@ export function Description({ ...props }) {
 
 const styles = {
   wrapper: css`
-    padding: 24px 48px;
+    padding: 0 48px;
     width: 400px;
     align-content: center;
     overflow-y: auto;
@@ -42,6 +42,7 @@ const styles = {
     font-size: 36px;
     word-wrap: break-word;
     hyphens: manual;
+    padding-top: 24px;
   `,
   text: css`
     font-size: 18px;

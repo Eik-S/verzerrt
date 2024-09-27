@@ -21,6 +21,7 @@ const globalStyles = css`
 
   * {
     box-sizing: border-box;
+    letter-spacing: 0.04em;
   }
 `
 
