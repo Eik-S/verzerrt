@@ -38,5 +38,4 @@ jobs:
           RELEASE_VERSION=${{ steps.release.outputs.verzerrt-website--tag_name }} npm run build -w verzerrt-website
           aws s3 sync --exclude 'assets/*' ./verzerrt-website/build/ s3://verzerrt.eikemu.com/ --delete --cache-control max-age=120
           aws s3 sync ./verzerrt-website/build/assets/ s3://verzerrt.eikemu.com/assets/ --delete --cache-control max-age=31536000
-          aws s3 cp ./verzerrt-website/build/sw.js s3://verzerrt.eikemu.com/sw.js --content-type application/javascript --cache-control max-age=31536000
           aws cloudfront create-invalidation --distribution-id EO3WAW6G8S772 --paths '/*'
