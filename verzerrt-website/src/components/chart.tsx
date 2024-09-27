@@ -2,15 +2,9 @@ import * as d3 from 'd3'
 import { useEffect, useState } from 'react'
 import { getLogoPath } from './publishers'
 import { css } from '@emotion/react'
+import { BarChartData, TimeSeriesData } from '../models/StoryData'
+import { transformTimeSeriesToBarChartData } from '../utils/data-transform'
 
-interface PublisherData {
-  name: string
-  score: number
-}
-
-interface ChartData {
-  data: PublisherData[]
-}
 export function Chart({ ...props }) {
   const margin = { top: 20, right: 70, bottom: 40, left: 90 }
   const [width, setWidth] = useState<number | undefined>(undefined)
@@ -50,7 +44,9 @@ export function Chart({ ...props }) {
       // append the svg object to the body of the page
 
       // Parse the Data
-      const data = ((await d3.json('/test-data.json')) as ChartData).data
+      const data = transformTimeSeriesToBarChartData(
+        (await d3.json('/test-data.json')) as TimeSeriesData[],
+      )
       const xScale = 100
       const xMax = data.sort((a, b) => b.score - a.score)[0].score
 
@@ -102,7 +98,7 @@ export function Chart({ ...props }) {
         .attr('r', y.bandwidth() / 2 - 2.5)
         .attr('style', styles.barTip.styles)
 
-      const logoSize = (d: PublisherData) => y.bandwidth() * 0.6 * getPublisherScaling(d.name)
+      const logoSize = (d: BarChartData) => y.bandwidth() * 0.6 * getPublisherScaling(d.name)
       svg
         .selectAll('chartBar')
         .data(data)
